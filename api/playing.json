@@ -1,30 +1,17 @@
 {
-  "file": "Neil Young/Homegrown [2020]/06 Neil Young - Homegrown [2020] - Florida.flac",
-  "last-modified": "2020-06-18T14:15:04Z",
-  "album": "Homegrown",
-  "albumartist": "Neil Young",
-  "albumartistsort": "Young, Neil",
-  "artist": "Neil Young",
-  "artistsort": "Young, Neil",
-  "date": "2020-06-19",
-  "disc": [
-    "1",
-    "1"
-  ],
-  "genre": "Rock",
-  "label": "Reprise Records",
-  "musicbrainz_albumartistid": "75167b8b-44e4-407b-9d35-effe87b223cf",
-  "musicbrainz_albumid": "6038804d-0361-4a59-b3be-139a7c6aebbe",
-  "musicbrainz_artistid": "75167b8b-44e4-407b-9d35-effe87b223cf",
-  "musicbrainz_trackid": "b13df029-f566-4037-88b8-12271207774a",
-  "originaldate": "2020-06-19",
-  "title": "Florida",
-  "track": [
-    "6",
-    "6"
-  ],
-  "time": "178",
-  "duration": "178.412",
-  "pos": "5",
-  "id": "15"
+  "file": "2011.10.26 - Never More -Reincarnation Persona 4- [V0]/09. Heaven.mp3",
+  "last-modified": "2020-01-04T07:47:58Z",
+  "artist": "Shihoko Hirata",
+  "albumartist": "Various Artists",
+  "title": "Heaven",
+  "album": "Never More -Reincarnation: Persona 4-",
+  "track": "9",
+  "date": "2011",
+  "genre": "VGM",
+  "composer": "Shoji Meguro",
+  "disc": "1",
+  "time": "261",
+  "duration": "260.937",
+  "pos": "147",
+  "id": "257"
 }

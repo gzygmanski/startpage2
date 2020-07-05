@@ -3,8 +3,8 @@
     <Header />
     <!-- <Navigation /> -->
     <Bookmarks />
-    <Player />
     <Playlist />
+    <Player />
   </div>
 </template>
 

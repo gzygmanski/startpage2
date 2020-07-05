@@ -1,6 +1,6 @@
 <template>
   <section id="header">
-    <h1>Hello Shisam,<span> it's {{ time }}</span></h1>
+    <h1>Hello Shiss,<span> it's {{ time }}</span></h1>
   </section>
 </template>
 

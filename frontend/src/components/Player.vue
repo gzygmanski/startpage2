@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="player__container">
     <aside id="player" class="player">
       <div class="row player__row">
         <div class="player__bar">
@@ -57,15 +57,16 @@ export default{
   color: #eceff4;
   font-weight: 500;
   opacity: 95%;
+  z-index: 100;
+}
+
+.player__container {
+  height: 100px;
 }
 
 #player:hover {
   opacity: 100%;
   transition-timing-function: ease;
-}
-
-.container {
-  height: 80px;
 }
 
 .player__bar {
@@ -85,6 +86,11 @@ export default{
   width: 100px;
   height: 100px;
   background: #3b4252;
+  background-image: url("../assets/empty-album-cover.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-blend-mode: overlay;
 }
 
 .player__toggle {
@@ -103,6 +109,8 @@ export default{
   text-align: left;
   flex-grow: 1;
   padding: .5rem;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 @media only screen and (min-width: 800px) {
@@ -116,6 +124,9 @@ export default{
     transition: .5s;
     transition-timing-function: ease-in-out;
     height: 50px !important;
+  }
+  .player__cover {
+    background-image: none;
   }
   .player__cover > img {
     display: none;

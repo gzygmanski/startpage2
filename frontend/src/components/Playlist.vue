@@ -90,12 +90,11 @@ export default{
 .playlist__container {
   flex-wrap: nowrap;
   align-items: stretch;
-  justify-content: space-between;
+  justify-content: space-around;
   text-align: left;
 }
 
 .playlist__list {
-  flex-grow: 1;
   padding: 2rem;
 }
 
@@ -125,6 +124,11 @@ export default{
   width: 200px;
   height: 200px;
   background: #8fbcbb;
+  background-image: url("../assets/empty-album-cover.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-blend-mode: overlay;
 }
 
 @media only screen and (max-width: 800px) {
