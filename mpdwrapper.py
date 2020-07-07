@@ -27,8 +27,11 @@ class MPDWrapper():
             self.library = json.load(f)
 
     def disconnect(self):
-        self._client.close()
-        self._client.disconnect()
+        try:
+            self._client.close()
+            self._client.disconnect()
+        except ConnectionError:
+            pass
 
     def update_library(self):
         self._client.update()

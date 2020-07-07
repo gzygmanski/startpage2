@@ -8,6 +8,7 @@ import vuesocketioext from 'vue-socket.io-extended'
 import io from 'socket.io-client'
 
 Vue.config.productionTip = false
+Vue.prototype.win = window
 
 const socket = io('localhost:5000/api')
 Vue.use(vuesocketioext, socket, { store })

@@ -1,13 +1,13 @@
 <template>
   <div class="player__container">
-    <aside id="player" class="player">
+    <aside id="player" class="player" >
       <div class="row player__row">
         <div class="player__bar">
-          <div class="player__progress" :style="{width: `${mpdStatus.progress}%`}" >
+          <div class="player__progress" :style="{width: `${mpdStatus.progress}%`}">
           </div>
         </div>
       </div>
-      <div class="row player__row">
+      <div class="row player__row" :class="{player__hidden: playerHidden}">
         <div class="player__change player__previous">
           <img src="../assets/previous.png" alt="previous"/>
         </div>
@@ -40,8 +40,22 @@
 import { mapGetters } from 'vuex'
 export default{
   name: 'Player',
+  data: function () {
+    return {
+      playerHidden: true
+    }
+  },
   computed: {
     ...mapGetters(['currentSong', 'mpdStatus', 'connection'])
+  },
+  created () {
+    window.addEventListener('scroll', () => {
+      if (window.scrollY === 0) {
+        this.playerHidden = true
+      } else {
+        this.playerHidden = false
+      }
+    })
   }
 }
 </script>
@@ -52,31 +66,30 @@ export default{
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 100px;
   background: #434c5e;
   color: #eceff4;
   font-weight: 500;
-  opacity: 95%;
   z-index: 100;
+}
+
+.player__hidden {
+  display: none;
+  height: 0px !important;
+  transition: .2s !important;
 }
 
 .player__container {
   height: 100px;
 }
 
-#player:hover {
-  opacity: 100%;
-  transition-timing-function: ease;
-}
-
 .player__bar {
   width: 100%;
-  height: 5px;
-  background: #2e3440;
+  background: #3b4252;
 }
 
 .player__progress {
   height: 5px;
+  border-radius: 0 2px 2px 0;
   background: #bf616a;
   transition: width .5s;
   transition-timing-function: ease-in-out;
@@ -85,8 +98,7 @@ export default{
 .player__cover {
   width: 100px;
   height: 100px;
-  background: #3b4252;
-  background-image: url("../assets/empty-album-cover.png");
+  background: #2e3440;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -123,7 +135,7 @@ export default{
   #player, .player__cover, .player__toggle {
     transition: .5s;
     transition-timing-function: ease-in-out;
-    height: 50px !important;
+    height: 50px;
   }
   .player__cover {
     background-image: none;

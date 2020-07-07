@@ -59,7 +59,7 @@ body {
   background: #ffffff;
   color: #2e3440;
   font-weight: 300;
-  font-family: "M+ 2m", Helvetica, Arial, sans-serif;
+  font-family: "mononoki Nerd Font", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

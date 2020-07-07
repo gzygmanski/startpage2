@@ -1,7 +1,7 @@
 <template>
   <div>
+    <Navigation />
     <Header />
-    <!-- <Navigation /> -->
     <Bookmarks />
     <Playlist />
     <Player />

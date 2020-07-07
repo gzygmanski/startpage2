@@ -10,11 +10,11 @@
       <div class="playlist__content">
         <div class="row">
           <div class="playlist__item" v-for="item in playlist" :key="item.pos">
+            <div class="playlist__item-header row">
+              <div class="playlist__item-index">#{{ item.pos }}</div>
+              <div class="playlist__item-remove">Del</div>
+            </div>
             <div class="playlist__item-cover">
-              <div class="playlist_item-header row">
-                <div class="playlist__item-index">#{{ item.pos }}</div>
-                <div class="playlist__item-remove">Remove</div>
-              </div>
             </div>
             <div class="playlist__item-info">
               <div class="scroll">
@@ -50,7 +50,6 @@ export default{
 }
 
 .playlist__item-index, .playlist__item-remove {
-  padding: .5rem;
   color: #fff;
 }
 
@@ -151,7 +150,7 @@ export default{
   .playlist__item-cover {
     height: 150px;
   }
-  .playlist__content .row {
+  .playlist__content > .row {
     justify-content: space-evenly;
   }
 }
@@ -199,6 +198,11 @@ export default{
   100% {
     transform: translateX(-100%);
   }
+}
+
+.playlist__item-header {
+  padding: 5px;
+  background: #8fbcbb;
 }
 
 </style>

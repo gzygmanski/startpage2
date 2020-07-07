@@ -1,6 +1,12 @@
 <template>
-  <section id="header">
-    <h1>Hello Shiss,<span> it's {{ time }}</span></h1>
+  <section id="header" :style="{ height: size + 'px' }">
+    <div class="header_greeter">
+      <h1>Hello Shiss</h1>
+      <span> it's {{ time }}</span>
+      <a href="#bookmarks" class="">
+        
+      </a>
+    </div>
   </section>
 </template>
 
@@ -9,7 +15,8 @@ export default {
   name: 'Home',
   data: function () {
     return {
-      time: null
+      time: null,
+      size: window.innerHeight
     }
   },
   methods: {
@@ -18,10 +25,16 @@ export default {
     }
   },
   created () {
+    window.addEventListener('resize', () => {
+      this.size = window.innerHeight
+    })
     this.time = new Date().toLocaleTimeString()
     setInterval(() => {
       this.getCurrentTime()
     }, 1000)
+  },
+  destroyed () {
+    window.removeEventListener('resize')
   }
 }
 </script>
@@ -30,7 +43,6 @@ export default {
 #header {
   width: 100%;
   margin: 0;
-  height: 400px;
   max-width: 100%;
   background: #bf616a;
   background-image: url("../assets/header.jpg");
@@ -42,15 +54,28 @@ export default {
   transition: background-size 1s;
 }
 
-#header h1 {
+.header_greeter {
   position: absolute;
-  top: 30%;
+  top: 50%;
   left: 50%;
   transform: translateY(-50%) translateX(-50%);
   font-size: 50px;
   color: #fff;
   text-align: left;
   animation: slide .5s;
+  text-shadow: 0px 0px 5px #d08770;
+}
+
+.header_greeter > h1 {
+  font-size: 30px;
+}
+
+.header_greeter > a {
+  display: block;
+  text-align: center;
+  margin-top: 20px;
+  font-size: 60px;
+  color: #fff;
 }
 
 #header h1 span {
@@ -59,11 +84,11 @@ export default {
 
 @keyframes slide {
   from {
-    top: 26%;
+    top: 48%;
     opacity: 0%;
   }
   to {
-    top: 30%;
+    top: 50%;
     opacity: 100%;
   }
 }
