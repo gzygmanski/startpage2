@@ -7,17 +7,17 @@
           </div>
         </div>
       </div>
-      <div class="row player__row" :class="{player__hidden: playerHidden}">
-        <div class="player__change player__previous">
-          <img src="../assets/previous.png" alt="previous"/>
+      <div class="row player__row" >
+        <div :class="{player__hidden: playerHidden}" v-on:click="previous()" class="player__change player__previous">
+          <img class="player__controls" src="../assets/previous.png" alt="previous"/>
         </div>
-        <div class="player__cover">
+        <div :class="{player__hidden: playerHidden}" v-on:click="toggle()" class="player__cover">
           <div class="player__toggle">
             <img v-if="mpdStatus.state === `play`" src="../assets/pause.png" alt="pause"/>
             <img v-else src="../assets/play.png" alt="play"/>
           </div>
         </div>
-        <div class="player__info">
+        <div :class="{player__hidden: playerHidden}" class="player__info">
           <div class="player__title">
             <span>{{ currentSong.title }}</span>
           </div>
@@ -28,8 +28,8 @@
             by {{ currentSong.artist }}
           </div>
         </div>
-        <div class="player__change player__next">
-          <img src="../assets/next.png" alt="next"/>
+        <div :class="{player__hidden: playerHidden}" v-on:click="next()" class="player__change player__next">
+          <img class="player__controls" src="../assets/next.png" alt="next"/>
         </div>
       </div>
     </aside>
@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 export default{
   name: 'Player',
   data: function () {
@@ -47,6 +47,9 @@ export default{
   },
   computed: {
     ...mapGetters(['currentSong', 'mpdStatus', 'connection'])
+  },
+  methods: {
+    ...mapActions(['toggle', 'previous', 'next'])
   },
   created () {
     window.addEventListener('scroll', () => {
@@ -70,12 +73,23 @@ export default{
   color: #eceff4;
   font-weight: 500;
   z-index: 100;
+  transition: .2s;
 }
 
 .player__hidden {
-  display: none;
   height: 0px !important;
-  transition: .2s !important;
+  padding: 0 !important;
+  transition: .2s;
+}
+
+.player__hidden img {
+  height: 0px !important;
+  display: none;
+}
+
+.player__hidden span {
+  height: 0px !important;
+  display: none;
 }
 
 .player__container {
@@ -114,7 +128,7 @@ export default{
 }
 
 .player__cover > .player__toggle > img {
-  height: 20px;
+  height: 30px;
 }
 
 .player__info {
@@ -123,6 +137,11 @@ export default{
   padding: .5rem;
   white-space: nowrap;
   overflow: hidden;
+}
+
+.player__controls {
+  width: 20px;
+  height: 20px;
 }
 
 @media only screen and (min-width: 800px) {
@@ -135,9 +154,12 @@ export default{
   #player, .player__cover, .player__toggle {
     transition: .5s;
     transition-timing-function: ease-in-out;
+  }
+  .player__toggle {
     height: 50px;
   }
   .player__cover {
+    height: 50px;
     background-image: none;
   }
   .player__cover > img {

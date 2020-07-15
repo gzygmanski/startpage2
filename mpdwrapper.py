@@ -42,6 +42,27 @@ class MPDWrapper():
     def get_playlists(self):
         return self._client.listplaylists()
 
+    def next(self):
+        try:
+            self._client.next()
+        except ConnectionError:
+            self._connect()
+            self._client.next()
+
+    def previous(self):
+        try:
+            self._client.previous()
+        except ConnectionError:
+            self._connect()
+            self._client.next()
+
+    def toggle(self):
+        try:
+            self._client.pause()
+        except ConnectionError:
+            self._connect()
+            self._client.next()
+
 class CurrentSong(MPDWrapper):
     def __init__(self, host, port, socket, namespace, timeout=10):
         MPDWrapper.__init__(self, host, port, timeout)

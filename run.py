@@ -10,7 +10,7 @@ HOST = 'localhost'
 PORT = 6600
 NAMESPACE = '/api'
 
-mpd = None
+mpd = MPDWrapper(HOST, PORT)
 currentsong = CurrentSong(HOST, PORT, socketio, NAMESPACE)
 status = Status(HOST, PORT, socketio, NAMESPACE)
 playlist = Playlist(HOST, PORT, socketio, NAMESPACE)
@@ -26,13 +26,10 @@ if not playlist.task:
 def on_connect():
     print('Client connected')
     global mpd
-    mpd = MPDWrapper(HOST, PORT)
     with open('./api/playing.json', 'r') as f:
         playing = json.load(f)
     socketio.emit('song', playing, namespace='/api')
-
     socketio.emit('playlists', mpd.get_playlists(), namespace='/api')
-
     with open('./api/playlist.json', 'r') as f:
         playlist = json.load(f)
     socketio.emit('playlist', playlist, namespace='/api')
@@ -40,7 +37,18 @@ def on_connect():
 @socketio.on('disconnect', namespace='/api')
 def on_disconnect():
     print('Client disconnected')
-    mpd.disconnect()
+
+@socketio.on('mpdtoggle', namespace=NAMESPACE)
+def on_toggle():
+    mpd.toggle()
+
+@socketio.on('mpdnext', namespace=NAMESPACE)
+def on_next():
+    mpd.next()
+
+@socketio.on('mpdprevious', namespace=NAMESPACE)
+def on_previous():
+    mpd.previous()
 
 @app.route('/api/library/')
 def library():

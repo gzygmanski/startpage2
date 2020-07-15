@@ -1,29 +1,40 @@
 <template>
   <nav id="navigation" >
     <div class="row">
-      <div class="logo" :class="{hidden: onTop}">
+      <div class="links">
+        <div class="links-bar title" :class="{hidden: onTop, remove: !onTop}">
+          <span>{{ currentSong.title }}</span>
+        </div>
       </div>
       <div class="links">
         <div class="links-bar" :class="{hidden: onTop, remove: !onTop}">
-          <span><a class="toggle" href="localhost:5000/api/library">Pause</a></span>
+          <span v-if="mpdStatus.state === `play`"><button class="toggle" v-on:click="toggle()">Pause</button></span>
+          <span v-else ><button class="toggle" v-on:click="toggle()">Play</button></span>
         </div>
-        <div class="links-bar" :class="{hidden: onTop}">
-          <span><router-link to="/">Home</router-link></span>
-          <span><a href="localhost:5000/api/library">Library</a></span>
-          <span><a href="localhost:5000/api/playing">Current Song</a></span>
-        </div>
+        <!-- <div class="links-bar" :class="{hidden: onTop}"> -->
+        <!--   <span><router-link to="/">Home</router-link></span> -->
+        <!--   <span><a href="localhost:5000/api/library">Library</a></span> -->
+        <!--   <span><a href="localhost:5000/api/playing">Current Song</a></span> -->
+        <!-- </div> -->
       </div>
     </div>
   </nav>
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
 export default{
   name: 'Navigation',
   data: function () {
     return {
       onTop: true
     }
+  },
+  computed: {
+    ...mapGetters(['currentSong', 'mpdStatus', 'connection'])
+  },
+  methods: {
+    ...mapActions(['toggle'])
   },
   created () {
     window.addEventListener('scroll', () => {
@@ -37,7 +48,7 @@ export default{
 }
 </script>
 
-<style>
+<style scoped>
 #navigation {
   position: fixed;
   z-index: 100;
@@ -57,10 +68,15 @@ export default{
 }
 
 .links-bar {
-  background: #434c5e55;
   padding: 14px 5px;
   transition: .2s ease-in-out;
   margin: 10px 10px 0 0;
+}
+
+.title {
+  color: #fff;
+  font-size: 12px;
+  padding: 12px 25px;
 }
 
 .toggle {
@@ -73,9 +89,11 @@ export default{
 
 .links {
   display: flex;
+  flex-wrap: nowrap;
 }
 
-.links a {
+.links button {
+  border: none;
   padding: 12px 25px;
   color: #fff;
   background: #434c5e;

@@ -18,11 +18,14 @@ const getters = {
 }
 
 const actions = {
-  SOCKET_CONNECT: () => {
-    console.log('Client connected')
+  next () {
+    this._vm.$socket.client.emit('mpdnext')
   },
-  SOCKET_DISCONNECT: () => {
-    console.log('Client disconnected')
+  previous () {
+    this._vm.$socket.client.emit('mpdprevious')
+  },
+  toggle () {
+    this._vm.$socket.client.emit('mpdtoggle')
   }
 }
 
