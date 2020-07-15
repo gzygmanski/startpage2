@@ -4,12 +4,11 @@ import json
 
 
 class MPDWrapper():
-    def __init__(self, host, port, timeout=10):
+    def __init__(self, host, port, timeout=None):
         self.host = host
         self.port = port
         self.timeout = timeout
         self._client = MPDClient()
-        self._connect()
         self._set_library()
 
     def __str__(self):
@@ -19,49 +18,53 @@ class MPDWrapper():
         return True
 
     def _connect(self):
-        self._client.timeout = self.timeout
         self._client.connect(self.host, self.port)
 
     def _set_library(self):
         with open('api/library.json', 'r') as f:
             self.library = json.load(f)
 
-    def disconnect(self):
-        try:
-            self._client.close()
-            self._client.disconnect()
-        except ConnectionError:
-            pass
+    def _disconnect(self):
+        self._client.close()
+        self._client.disconnect()
 
     def update_library(self):
+        self._connect()
         self._client.update()
         with open('api/library.json', 'w') as f:
             json.dump(self._client.listall(), f, indent=2)
             self._set_library()
+        self._disconnect()
+
+    def load(self, name):
+        print(name)
+        self._connect()
+        self._client.clear()
+        self._client.load(name)
+        self._client.play(0)
+        self._client.pause()
+        self._disconnect()
 
     def get_playlists(self):
-        return self._client.listplaylists()
+        self._connect()
+        listplaylist = self._client.listplaylists()
+        self._disconnect()
+        return listplaylist
 
     def next(self):
-        try:
-            self._client.next()
-        except ConnectionError:
-            self._connect()
-            self._client.next()
+        self._connect()
+        self._client.next()
+        self._disconnect()
 
     def previous(self):
-        try:
-            self._client.previous()
-        except ConnectionError:
-            self._connect()
-            self._client.next()
+        self._connect()
+        self._client.previous()
+        self._disconnect()
 
     def toggle(self):
-        try:
-            self._client.pause()
-        except ConnectionError:
-            self._connect()
-            self._client.next()
+        self._connect()
+        self._client.pause()
+        self._disconnect()
 
 class CurrentSong(MPDWrapper):
     def __init__(self, host, port, socket, namespace, timeout=10):
@@ -69,6 +72,7 @@ class CurrentSong(MPDWrapper):
         self.socket = socket
         self.namespace = namespace
         self.task = False
+        self._connect()
 
     def currentsong(self):
         self.task = True
@@ -85,6 +89,7 @@ class Status(MPDWrapper):
         self.socket = socket
         self.namespace = namespace
         self.task = False
+        self._connect()
 
     def status(self):
         self.task = True
@@ -104,6 +109,7 @@ class Playlist(MPDWrapper):
         self.socket = socket
         self.namespace = namespace
         self.task = False
+        self._connect()
 
     def playlist(self):
         self.task = True

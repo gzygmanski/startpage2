@@ -4,7 +4,9 @@
     <div class="row playlist__container">
       <div class="playlist__list">
         <ul>
-          <li v-for="playlist in playlists" :key="playlist.playlist" ><a href="#">{{ playlist.playlist }}</a></li>
+          <li v-for="list in playlists" :key="list.playlist">
+            <span v-on:click="loadPlaylist(list.playlist)">{{ list.playlist }}</span>
+          </li>
         </ul>
       </div>
       <div class="playlist__content">
@@ -31,11 +33,19 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 export default{
   name: 'Player',
+  data () {
+    return {
+      activePlaylist: ''
+    }
+  },
   computed: {
     ...mapGetters(['playlists', 'playlist', 'connection'])
+  },
+  methods: {
+    ...mapActions(['loadPlaylist'])
   }
 }
 </script>

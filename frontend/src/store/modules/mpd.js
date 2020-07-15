@@ -6,6 +6,7 @@ const state = {
   mpdStatus: {},
   playlists: null,
   playlist: null,
+  playlistName: '',
   isConnected: false
 }
 
@@ -26,6 +27,10 @@ const actions = {
   },
   toggle () {
     this._vm.$socket.client.emit('mpdtoggle')
+  },
+  loadPlaylist ({commit}, playlistName) {
+    commit('getPlaylistName', playlistName)
+    this._vm.$socket.client.emit('mpdloadplaylist', state.playlistName)
   }
 }
 
@@ -47,7 +52,8 @@ const mutations = {
   },
   SOCKET_PLAYLIST: (state, data) => {
     state.playlist = data
-  }
+  },
+  getPlaylistName: (state, name) => (state.playlistName = name)
 }
 
 export default {

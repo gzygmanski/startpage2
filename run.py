@@ -6,15 +6,18 @@ import json
 app = Flask(__name__, static_folder='./dist/static', template_folder='./dist')
 socketio = SocketIO(app, async_mode='threading', cors_allowed_origins="*")
 
+# Constants
 HOST = 'localhost'
 PORT = 6600
 NAMESPACE = '/api'
 
+# Connect to MPD client
 mpd = MPDWrapper(HOST, PORT)
+
+# Start background threads for real time information form MPD
 currentsong = CurrentSong(HOST, PORT, socketio, NAMESPACE)
 status = Status(HOST, PORT, socketio, NAMESPACE)
 playlist = Playlist(HOST, PORT, socketio, NAMESPACE)
-
 if not currentsong.task:
     t1 = socketio.start_background_task(currentsong.currentsong)
 if not status.task:
@@ -22,16 +25,20 @@ if not status.task:
 if not playlist.task:
     t3 = socketio.start_background_task(playlist.playlist)
 
-@socketio.on('connect', namespace='/api')
+
+@socketio.on('connect', namespace=NAMESPACE)
 def on_connect():
     print('Client connected')
-    global mpd
+
+    # Load current track data
     with open('./api/playing.json', 'r') as f:
         playing = json.load(f)
     socketio.emit('song', playing, namespace='/api')
-    socketio.emit('playlists', mpd.get_playlists(), namespace='/api')
+
+    # Load playlists data
     with open('./api/playlist.json', 'r') as f:
         playlist = json.load(f)
+    socketio.emit('playlists', mpd.get_playlists(), namespace='/api')
     socketio.emit('playlist', playlist, namespace='/api')
 
 @socketio.on('disconnect', namespace='/api')
@@ -49,6 +56,10 @@ def on_next():
 @socketio.on('mpdprevious', namespace=NAMESPACE)
 def on_previous():
     mpd.previous()
+
+@socketio.on('mpdloadplaylist', namespace=NAMESPACE)
+def on_playlist_change(data):
+    mpd.load(data)
 
 @app.route('/api/library/')
 def library():

@@ -64,6 +64,7 @@ export default {
   text-align: left;
   animation: slide .5s;
   text-shadow: 0px 0px 5px #d08770;
+  font-family: "TeX Gyre Adventor", "mononoki Nerd Font", sans-serif;
 }
 
 .header_greeter > h1 {
